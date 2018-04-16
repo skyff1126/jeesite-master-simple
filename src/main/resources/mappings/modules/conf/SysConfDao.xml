@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.thinkgem.jeesite.modules.conf.dao.SysConfDao">
+
+    <sql id="sysConfColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.value AS "value",
+		a.description AS "description",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+
+    <sql id="sysConfJoins">
+    </sql>
+
+    <select id="get" resultType="SysConf">
+        SELECT
+        <include refid="sysConfColumns"/>
+        FROM sys_conf a
+        <include refid="sysConfJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+	<select id="getByName" resultType="SysConf">
+		SELECT
+		<include refid="sysConfColumns"/>
+		FROM sys_conf a
+		<include refid="sysConfJoins"/>
+		WHERE a.name = #{name}
+	</select>
+
+    <select id="findList" resultType="SysConf">
+        SELECT
+        <include refid="sysConfColumns"/>
+        FROM sys_conf a
+        <include refid="sysConfJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="SysConf">
+        SELECT
+        <include refid="sysConfColumns"/>
+        FROM sys_conf a
+        <include refid="sysConfJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+    </select>
+
+    <insert id="insert">
+		INSERT INTO sys_conf(
+			id,
+			name,
+			value,
+			description,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{name},
+			#{value},
+			#{description},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+
+    <update id="update">
+		UPDATE sys_conf SET 	
+			name = #{name},
+			value = #{value},
+			description = #{description},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+    <update id="delete">
+		UPDATE sys_conf SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+</mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.LoginLogDao">
+
+    <select id="queryLoginLogList" parameterType="java.util.Map" resultType="com.thinkgem.jeesite.modules.sys.entity.LoginLogData">
+        SELECT COUNT(*) AS COUNT, cld.company_id AS companyId,cld.office_id AS officeId,cld.login_name AS loginName,cld.name AS NAME
+        FROM client_login_data cld
+        WHERE  1 = 1
+        <if test="loginNames!=null">
+            and cld.login_name in (${loginNames})
+        </if>
+        <if test="officeIds!=null">
+            and cld.office_id in (${officeIds})
+        </if>
+        <if test="name!=null">
+            and cld.name = #{name}
+        </if>
+        <if test="loginName!=null">
+            and cld.login_name = #{loginName}
+        </if>
+        <if test="officeCode!=null  and officeCode!='100000'">
+            and cld.office_code like '${officeCode}%'
+        </if>
+        <if test="companyId!=null">
+            and cld.company_id = #{companyId}
+        </if>
+        <if test="startTime!=null">
+            and cld.create_date &gt;= #{startTime}
+        </if>
+        <if test="endTime!=null">
+            and cld.create_date &lt; #{endTime}
+        </if>
+        GROUP BY cld.office_id,cld.login_name
+        <if test="listStart!=null and pageSize!=null">
+            LIMIT #{listStart}, #{pageSize}
+        </if>
+    </select>
+
+    <insert id="save"  parameterType="com.thinkgem.jeesite.modules.sys.entity.LoginLogData">
+        insert into client_login_data(company_id,office_id,office_code,login_name,name,year,month,week,day)
+        values (#{companyId},#{officeId},#{officeCode},#{loginName},#{name},#{year},#{month},#{week},#{day})
+    </insert>
+
+    <select id="listCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from
+        (
+            SELECT cld.id
+            FROM client_login_data cld
+            WHERE 1 = 1
+            <if test="loginNames!=null">
+                and cld.login_name in (${loginNames})
+            </if>
+	        <if test="officeIds!=null">
+	            and cld.office_id in (${officeIds})
+	        </if>
+            <if test="name!=null">
+                and cld.name = #{name}
+            </if>
+            <if test="loginName!=null">
+                and cld.login_name = #{loginName}
+            </if>
+            <if test="officeCode!=null and officeCode!='100000'">
+                and cld.office_code like '${officeCode}%'
+            </if>
+            <if test="companyId!=null">
+                and cld.company_id = #{companyId}
+            </if>
+            <if test="startTime!=null">
+                and cld.create_date &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and cld.create_date &lt; #{endTime}
+            </if>
+            GROUP BY cld.office_id,cld.login_name
+        ) as temp
+    </select>
+
+    <select id="queryLoginLogByMonth" parameterType="java.util.Map" resultType="com.thinkgem.jeesite.modules.sys.entity.LoginLogData">
+        SELECT COUNT(*) AS COUNT, cld.company_id AS companyId,cld.office_id AS officeId,cld.office_code AS officeCode,cld.login_name AS loginName,cld.name AS NAME,cld.month as month,cld.year as year
+        FROM client_login_data cld
+        <if test="month!=null">
+            WHERE  cld.month = #{month}
+        </if>
+        <if test="year!=null">
+            WHERE  cld.year = #{year}
+        </if>
+        GROUP BY cld.office_id,cld.login_name
+    </select>
+
+</mapper>
