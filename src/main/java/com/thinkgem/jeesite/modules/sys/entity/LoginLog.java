@@ -19,7 +19,6 @@ public class LoginLog implements Serializable {
     private String companyId;
     private String name;
     private String loginName;
-    private String gender;
     private String type; // LOGIN:登录 LOGOUT:登出
     private String clientType; // PC:PC端 MOBILE:手机端
     private String year;
@@ -35,16 +34,6 @@ public class LoginLog implements Serializable {
 
     public LoginLog() {
         super();
-        this.id = IdGen.uuid();
-        this.year = DateUtils.getYear();
-        this.month = DateUtils.getYearMonth();
-        this.week = DateUtils.getWeek();
-        this.day = DateUtils.getDay();
-    }
-
-    public LoginLog(String id) {
-        this();
-        this.id = id;
         this.year = DateUtils.getYear();
         this.month = DateUtils.getYearMonth();
         this.week = DateUtils.getWeek();
@@ -102,15 +91,6 @@ public class LoginLog implements Serializable {
         } else {
             this.loginName = loginName;
         }
-    }
-
-    @ExcelField(title = "性别", align = 2, sort = 50)
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public String getType() {

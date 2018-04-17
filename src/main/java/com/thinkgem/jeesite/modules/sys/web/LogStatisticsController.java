@@ -8,9 +8,11 @@ import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.LoginLog;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
+import com.thinkgem.jeesite.modules.sys.entity.OperationLog;
 import com.thinkgem.jeesite.modules.sys.service.LoginLogService;
 import com.thinkgem.jeesite.modules.sys.service.OfficeService;
-import com.thinkgem.jeesite.modules.sys.service.SystemService;
+import com.thinkgem.jeesite.modules.sys.service.OperationLogService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +37,7 @@ public class LogStatisticsController extends BaseController {
     private LoginLogService loginLogService;
 
     @Autowired
-    private SystemService systemService;
+    private OperationLogService operationLogService;
 
     @Autowired
     private OfficeService officeService;
@@ -97,7 +99,7 @@ public class LogStatisticsController extends BaseController {
         }
         model.addAttribute("page", page);
 
-        return "modules/report/clientLoginList";
+        return "modules/log/loginLogList";
     }
 
     /**
@@ -151,7 +153,47 @@ public class LogStatisticsController extends BaseController {
         } catch (Exception e) {
             addMessage(redirectAttributes, "导出数据失败！失败信息：" + e.getMessage());
         }
-        return "redirect:" + Global.getAdminPath() + "/report/queryLoginLogList/?repage";
+        return "redirect:" + Global.getAdminPath() + "/log/queryLoginLogList/?repage";
+    }
+
+    @RequestMapping(value = {"queryOperationLogList"})
+    public String queryAdminOperationList(OperationLog operationLog, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+        HashMap queryMap = new HashMap();
+        Page<OperationLog> page = new Page<OperationLog>(request, response);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        if (null != operationLog) {
+            if (!StringUtils.isEmpty(operationLog.getLoginName())) {
+                queryMap.put("loginName", operationLog.getLoginName());
+            }
+            if (!StringUtils.isEmpty(operationLog.getStartTime())) {
+                queryMap.put("startTime", df.parse(operationLog.getStartTime()));
+            }
+            if (!StringUtils.isEmpty(operationLog.getEndTime())) {
+                Date date = df.parse(operationLog.getEndTime());
+                queryMap.put("endTime", new Date(date.getTime() + 1000 * 60 * 60 * 24));
+            }
+        }
+
+        queryMap.put("del", 0);
+
+        int listCount = operationLogService.listCount(queryMap);
+        if (listCount > 0) {
+            page.setCount(listCount);
+            page.initialize();
+            int pageNo = page.getPageNo();
+            int pageSize = page.getPageSize();
+            int listStart = (pageNo - 1) * pageSize;
+            queryMap.put("orderBy", page.getOrderBy());
+            queryMap.put("listStart", listStart);
+            queryMap.put("pageSize", pageSize);
+
+            List<OperationLog> adminOperationServiceList = operationLogService.queryOperationLogList(queryMap);
+            page.setList(adminOperationServiceList);
+        }
+        model.addAttribute("page", page);
+
+        return "modules/sys/operationLogList";
     }
 }
 

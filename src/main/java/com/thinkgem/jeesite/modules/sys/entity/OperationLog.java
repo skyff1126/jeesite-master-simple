@@ -5,15 +5,14 @@
  */
 package com.thinkgem.jeesite.modules.sys.entity;
 
-import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
-import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * 用户Entity
+ *
  * @author ThinkGem
  * @version 2013-5-15
  */
@@ -21,17 +20,15 @@ public class OperationLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //	@Id
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
-//	@Column(name = "id", nullable = false)
-    private String id = IdGen.uuid();
-    private String name;
-    private String loginName;// 登录
-    private String gender;
-    private String menuName;  //菜单名称
-    private String moduleName; //业务模块
-    private String operation;    //操作描述
+    private String id;
+    private String officeId;
     private String officeCode;
+    private String companyId;
+    private String userName;
+    private String loginName; // 登录名
+    private String menuName; //菜单名称
+    private String moduleName; //业务模块
+    private String operation; //操作描述
 
     private String startTime;
     private String endTime;
@@ -40,14 +37,46 @@ public class OperationLog implements Serializable {
         super();
     }
 
-    public OperationLog(String id) {
-        this();
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
         this.id = id;
     }
 
+    public String getOfficeId() {
+        return officeId;
+    }
 
-    @Length(min = 1, max = 100)
-//	@ExcelField(title="登录名", align=2, sort=30)
+    public void setOfficeId(String officeId) {
+        this.officeId = officeId;
+    }
+
+    public String getOfficeCode() {
+        return officeCode;
+    }
+
+    public void setOfficeCode(String officeCode) {
+        this.officeCode = officeCode;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String getLoginName() {
         if (StringUtils.isENum(loginName)) {
             BigDecimal bd = new BigDecimal(loginName);
@@ -64,30 +93,6 @@ public class OperationLog implements Serializable {
         } else {
             this.loginName = loginName;
         }
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public String getMenuName() {
@@ -112,14 +117,6 @@ public class OperationLog implements Serializable {
 
     public void setOperation(String operation) {
         this.operation = operation;
-    }
-
-    public String getOfficeCode() {
-        return officeCode;
-    }
-
-    public void setOfficeCode(String officeCode) {
-        this.officeCode = officeCode;
     }
 
     public String getStartTime() {

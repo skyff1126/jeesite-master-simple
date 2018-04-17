@@ -9,7 +9,7 @@ import java.util.Map;
 @MyBatisDao
 public interface OperationLogDao {
 
-    List<OperationLog> queryOperationList(Map map);
+    List<OperationLog> queryOperationLogList(Map map);
 
     int listCount(Map map);
 

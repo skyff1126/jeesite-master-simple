@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.OperationLogDao">
+
+    <select id="queryOperationLogList" parameterType="java.util.Map"
+            resultType="com.thinkgem.jeesite.modules.sys.dao.OperationLogDao">
+        SELECT id,user_name AS userName,login_name AS loginName,menu_name AS menuName,module_name AS moduleName,operation,create_date AS createDate
+        FROM sys_operation_log where 1=1
+        <if test="loginName!=null">
+            and login_name like '%${loginName}%'
+        </if>
+        <if test="startTime!=null">
+            and create_date &gt;= #{startTime}
+        </if>
+        <if test="endTime!=null">
+            and create_date &lt; #{endTime}
+        </if>
+        order by create_date desc
+        LIMIT #{listStart}, #{pageSize}
+    </select>
+
+    <select id="save" parameterType="com.thinkgem.jeesite.modules.sys.dao.OperationLogDao">
+        insert into sys_operation_log(user_name,login_name,menu_name,module_name,operation,create_date)
+        values (#{userName},#{loginName},#{menuName},#{moduleName},#{operation},#{createDate})
+    </select>
+
+    <select id="listCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM sys_operation_log where 1=1
+        <if test="loginName!=null">
+            and login_name like '%${loginName}%'
+        </if>
+        <if test="startTime!=null">
+            and create_date &gt;= #{startTime}
+        </if>
+        <if test="endTime!=null">
+            and create_date &lt; #{endTime}
+        </if>
+    </select>
+
+</mapper>

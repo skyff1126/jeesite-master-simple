@@ -2235,6 +2235,47 @@ CREATE TABLE `sys_conf` (
 INSERT INTO `sys_conf` VALUES ('3', 'pageSize', '5', null, null, null, null, null, null, '0');
 
 -- ----------------------------
+-- Table structure for sys_login_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_login_log`;
+CREATE TABLE `sys_login_log` (
+  `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `office_id` varchar(64) NOT NULL,
+  `office_code` varchar(32) DEFAULT NULL,
+  `company_id` varchar(64) NOT NULL,
+  `user_name` varchar(100) DEFAULT NULL,
+  `login_name` varchar(100) DEFAULT NULL,
+  `type` varchar(40) DEFAULT NULL,
+  `client_type` varchar(40) DEFAULT NULL,
+  `year` varchar(20) DEFAULT NULL COMMENT '年份',
+  `month` varchar(20) NOT NULL COMMENT '月份',
+  `day` varchar(20) NOT NULL COMMENT '日期',
+  `week` varchar(40) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_office_id` (`office_id`),
+  KEY `idx_login_name` (`login_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=403369 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Table structure for sys_operation_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_operation_log`;
+CREATE TABLE `sys_operation_log` (
+  `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `office_id` varchar(64) NOT NULL,
+  `office_code` varchar(32) DEFAULT NULL,
+  `company_id` varchar(64) NOT NULL,
+  `user_name` varchar(100) DEFAULT NULL,
+  `login_name` varchar(100) NOT NULL COMMENT '名称',
+  `menu_name` varchar(100) NOT NULL COMMENT '菜单名称',
+  `module_name` varchar(100) NOT NULL COMMENT '模块名称',
+  `operation` varchar(255) DEFAULT NULL COMMENT '性别',
+  `create_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=829 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
 -- Table structure for test_data
 -- ----------------------------
 DROP TABLE IF EXISTS `test_data`;
