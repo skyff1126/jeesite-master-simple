@@ -2241,8 +2241,9 @@ DROP TABLE IF EXISTS `sys_login_log`;
 CREATE TABLE `sys_login_log` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `office_id` varchar(64) NOT NULL,
-  `office_code` varchar(32) DEFAULT NULL,
+  `office_name` varchar(200) DEFAULT NULL,
   `company_id` varchar(64) NOT NULL,
+  `company_name` varchar(200) DEFAULT NULL,
   `user_name` varchar(100) DEFAULT NULL,
   `login_name` varchar(100) DEFAULT NULL,
   `type` varchar(40) DEFAULT NULL,
@@ -2264,8 +2265,9 @@ DROP TABLE IF EXISTS `sys_operation_log`;
 CREATE TABLE `sys_operation_log` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `office_id` varchar(64) NOT NULL,
-  `office_code` varchar(32) DEFAULT NULL,
+  `office_name` varchar(200) DEFAULT NULL,
   `company_id` varchar(64) NOT NULL,
+  `company_name` varchar(200) DEFAULT NULL,
   `user_name` varchar(100) DEFAULT NULL,
   `login_name` varchar(100) NOT NULL COMMENT '名称',
   `menu_name` varchar(100) NOT NULL COMMENT '菜单名称',

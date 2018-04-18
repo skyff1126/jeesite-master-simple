@@ -59,7 +59,7 @@ public class LoginRest {
 
         // add user login statistics data
         LoginLog loginLog = new LoginLog();
-        loginLog.setName(user.getName());
+        loginLog.setUserName(user.getName());
         loginLog.setLoginName(user.getLoginName());
         loginLog.setCompanyId(user.getCompany().getId());
         loginLog.setOfficeId(user.getOffice().getId());
@@ -83,7 +83,7 @@ public class LoginRest {
         try {
             // add user logout statistics data
             LoginLog loginLog = new LoginLog();
-            loginLog.setName(user.getName());
+            loginLog.setUserName(user.getName());
             loginLog.setLoginName(user.getLoginName());
             loginLog.setCompanyId(user.getCompany().getId());
             loginLog.setOfficeId(user.getOffice().getId());

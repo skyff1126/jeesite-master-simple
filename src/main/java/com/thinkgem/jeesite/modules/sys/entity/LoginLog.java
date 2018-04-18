@@ -1,13 +1,13 @@
 package com.thinkgem.jeesite.modules.sys.entity;
 
 import com.thinkgem.jeesite.common.utils.DateUtils;
-import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class LoginLog implements Serializable {
 
@@ -17,7 +17,7 @@ public class LoginLog implements Serializable {
     private String officeId;
     private String officeCode;
     private String companyId;
-    private String name;
+    private String userName;
     private String loginName;
     private String type; // LOGIN:登录 LOGOUT:登出
     private String clientType; // PC:PC端 MOBILE:手机端
@@ -26,6 +26,7 @@ public class LoginLog implements Serializable {
     private String day;
     private String week;
     private String count;
+    private Date createDate;
 
     private String officeName;
     private String companyName;
@@ -65,12 +66,12 @@ public class LoginLog implements Serializable {
     }
 
     @ExcelField(title = "姓名", align = 2, sort = 40)
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Length(min = 1, max = 100)
@@ -148,6 +149,14 @@ public class LoginLog implements Serializable {
 
     public void setCount(String count) {
         this.count = count;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     @Length(min = 1, max = 100)

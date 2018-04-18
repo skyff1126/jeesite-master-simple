@@ -20,8 +20,8 @@
     </select>
 
     <select id="save" parameterType="com.thinkgem.jeesite.modules.sys.dao.OperationLogDao">
-        insert into sys_operation_log(user_name,login_name,menu_name,module_name,operation,create_date)
-        values (#{userName},#{loginName},#{menuName},#{moduleName},#{operation},#{createDate})
+        insert into sys_operation_log(office_id,office_name,company_id,company_name,user_name,login_name,menu_name,module_name,operation,create_date)
+        values (#{officeId},#{officeName},#{companyId},#{companyName},#{userName},#{loginName},#{menuName},#{moduleName},#{operation},#{createDate})
     </select>
 
     <select id="listCount" parameterType="java.util.Map" resultType="java.lang.Integer">

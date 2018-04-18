@@ -1,14 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/views/include/taglib.jsp" %>
+<%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <html>
 <head>
     <title>操作日志</title>
     <meta name="decorator" content="default"/>
-    <%@include file="/views/include/dialog.jsp" %>
-    <style type="text/css">.sort {
-        color: #0663A2;
-        cursor: pointer;
-    }</style>
+    <%@include file="/WEB-INF/views/include/dialog.jsp" %>
+    <style type="text/css">
+        .sort {
+            color: #0663A2;
+            cursor: pointer;
+        }
+    </style>
     <script type="text/javascript">
         $(document).ready(function () {
             // 表格排序
@@ -40,7 +42,7 @@
 <body>
 
     <ul class="nav nav-tabs">
-        <li class="active"><a href="${ctx}/log/queryOperationLogList">管理员操作日志列表</a></li>
+        <li class="active"><a href="${ctx}/log/queryOperationLogList">操作日志列表</a></li>
     </ul>
 
     <form:form id="searchForm" modelAttribute="operationLog" action="${ctx}/log/queryOperationLogList" method="post"
@@ -62,6 +64,7 @@
     <table id="contentTable" class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
+            <th>用户名</th>
             <th>登录名</th>
             <th>业务模块</th>
             <th>菜单名称</th>
@@ -73,6 +76,7 @@
         <tbody>
         <c:forEach items="${page.list}" var="operationLog">
             <tr>
+                <td>${operationLog.userName}</td>
                 <td>${operationLog.loginName}</td>
                 <td>${operationLog.moduleName}</td>
                 <td>${operationLog.menuName}</td>

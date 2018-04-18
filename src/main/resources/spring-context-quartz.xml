@@ -35,6 +35,12 @@
 
     <!--创建任务-->
     <!--MethodInvokingJobDetailFactoryBean不支持集群，JobDetailFactoryBean支持集群-->
+    <!--<bean id="createDBJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="TestJob"/>
+        <property name="targetMethod" value="execute"/>
+        <property name="concurrent" value="false"/>
+        是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程
+    </bean> -->
     <bean id="cronTask" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="jobClass" value="org.springframework.scheduling.MyDetailQuartzJobBean"/>
         <property name="jobDataAsMap">

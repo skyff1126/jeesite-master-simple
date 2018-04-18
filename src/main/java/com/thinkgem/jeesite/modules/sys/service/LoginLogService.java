@@ -49,8 +49,7 @@ public class LoginLogService extends BaseService {
                 if (null != user) {
                     u.setOfficeName(user.getOffice().getName());
                     u.setCompanyName(user.getCompany().getName());
-                    u.setName(user.getName());
-                    u.setGender(user.getGender());
+                    u.setUserName(user.getName());
                 }
             }
         }

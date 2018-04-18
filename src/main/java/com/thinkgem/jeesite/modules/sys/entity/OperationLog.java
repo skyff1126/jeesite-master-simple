@@ -9,6 +9,7 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 用户Entity
@@ -29,6 +30,7 @@ public class OperationLog implements Serializable {
     private String menuName; //菜单名称
     private String moduleName; //业务模块
     private String operation; //操作描述
+    private Date createDate;
 
     private String startTime;
     private String endTime;
@@ -117,6 +119,14 @@ public class OperationLog implements Serializable {
 
     public void setOperation(String operation) {
         this.operation = operation;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public String getStartTime() {

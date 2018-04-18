@@ -38,8 +38,8 @@
     </select>
 
     <insert id="save" parameterType="com.thinkgem.jeesite.modules.sys.entity.LoginLog">
-        insert into sys_login_log(company_id,office_id,office_code,login_name,name,year,month,week,day,create_date)
-        values (#{companyId},#{officeId},#{officeCode},#{loginName},#{name},#{year},#{month},#{week},#{day},#{createDate})
+        insert into sys_login_log(office_id,office_name,company_id,company_name,user_name,login_name,type,client_type,year,month,day,week,create_date)
+        values (#{officeId},#{officeName},#{companyId},#{companyName},#{userName},#{loginName},#{type},#{clientType},#{year},#{month},#{day},#{week},#{createDate})
     </insert>
 
     <select id="listCount" parameterType="java.util.Map" resultType="java.lang.Integer">
@@ -54,8 +54,8 @@
         <if test="officeIds!=null">
             and ll.office_id in (${officeIds})
         </if>
-        <if test="name!=null">
-            and ll.name = #{name}
+        <if test="userName!=null">
+            and ll.user_name = #{userName}
         </if>
         <if test="loginName!=null">
             and ll.login_name = #{loginName}
@@ -79,7 +79,7 @@
     <select id="queryLoginLogByMonth" parameterType="java.util.Map"
             resultType="com.thinkgem.jeesite.modules.sys.entity.LoginLog">
         SELECT COUNT(*) AS COUNT, ll.company_id AS companyId,ll.office_id AS officeId,ll.office_code AS officeCode,
-        ll.login_name AS loginName,ll.name AS NAME,ll.month as month,ll.year as year
+        ll.login_name AS loginName,ll.user_name AS NAME,ll.month as month,ll.year as year
         FROM sys_login_log ll
         <if test="month!=null">
             WHERE ll.month = #{month}

@@ -5,10 +5,12 @@
     <title>客户端登录统计</title>
     <meta name="decorator" content="default"/>
     <%@include file="/WEB-INF/views/include/dialog.jsp" %>
-    <style type="text/css">.sort {
-        color: #0663A2;
-        cursor: pointer;
-    }</style>
+    <style type="text/css">
+        .sort {
+            color: #0663A2;
+            cursor: pointer;
+        }
+    </style>
     <script type="text/javascript">
         $(document).ready(function () {
             // 表格排序
@@ -138,9 +140,8 @@
             <th style="width:20px;"><input type="checkbox" class="multiCheck"></th>
             <th>归属公司</th>
             <th>归属部门</th>
+            <th>用户名</th>
             <th>登录名</th>
-            <th>姓名</th>
-            <th>性别</th>
             <th>登录次数</th>
         </tr>
         </thead>
@@ -152,9 +153,8 @@
                 </td>
                 <td>${loginLog.companyName}</td>
                 <td>${loginLog.officeName}</td>
+                <td>${loginLog.userName}</td>
                 <td>${loginLog.loginName}</td>
-                <td>${loginLog.name}</td>
-                <td>${loginLog.gender}</td>
                 <td>${loginLog.count}</td>
             </tr>
         </c:forEach>

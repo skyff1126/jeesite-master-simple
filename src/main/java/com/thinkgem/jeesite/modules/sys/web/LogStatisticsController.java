@@ -66,8 +66,8 @@ public class LogStatisticsController extends BaseController {
                 Office temp = officeService.get(loginLog.getOfficeId());
                 queryMap.put("officeCode", temp.getCode());
             }
-            if (!StringUtils.isEmpty(loginLog.getName())) {
-                queryMap.put("name", loginLog.getName());
+            if (!StringUtils.isEmpty(loginLog.getUserName())) {
+                queryMap.put("userName", loginLog.getUserName());
             }
             if (!StringUtils.isEmpty(loginLog.getLoginName())) {
                 queryMap.put("loginName", loginLog.getLoginName());
@@ -99,7 +99,7 @@ public class LogStatisticsController extends BaseController {
         }
         model.addAttribute("page", page);
 
-        return "modules/log/loginLogList";
+        return "modules/sys/loginLogList";
     }
 
     /**
