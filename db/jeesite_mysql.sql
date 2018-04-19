@@ -2191,8 +2191,8 @@ CREATE TABLE `sys_user` (
 
 /*Data for the table `sys_user` */
 
-INSERT INTO `sys_user` VALUES ('1', '1', '1', 'superadmin', '92f82e78811a5da9faf8790287a1e42e19d4c66d282f0f94feeecb5f', 'null', '超级管理员', '', '', '', null, '', '0:0:0:0:0:0:0:1', '2016-11-06 19:16:54', '1', '1', '2013-05-27 08:00:00', '1', '2016-08-17 14:14:51', '超级管理员', '0', null, null, null, null);
-INSERT INTO `sys_user` VALUES ('2', '1', '1', 'admin', 'f0ffb97d528283ccbd4f6242f08d7265ed12eb4fa4a9b0ce149dbd2e', 'null', '系统管理员', '', '', '', null, '', '112.87.186.78', '2016-11-09 21:38:32', '1', '40acf393b03a4dbaa3a5389d996b1557', '2015-10-28 17:32:26', '1', '2016-08-17 14:15:10', '系统管理员', '0', null, null, null, null);
+INSERT INTO `sys_user` VALUES ('1', '1', '1', 'superadmin', 'f3e414bbf9d7dd8d09d2d27c5c29d24ac85411f31b29d09e88cc0fd2', 'null', '超级管理员', '', '', '', null, '', '0:0:0:0:0:0:0:1', '2016-11-06 19:16:54', '1', '1', '2013-05-27 08:00:00', '1', '2016-08-17 14:14:51', '超级管理员', '0', null, null, null, null);
+INSERT INTO `sys_user` VALUES ('2', '1', '1', 'admin', 'f3e414bbf9d7dd8d09d2d27c5c29d24ac85411f31b29d09e88cc0fd2', 'null', '系统管理员', '', '', '', null, '', '112.87.186.78', '2016-11-09 21:38:32', '1', '40acf393b03a4dbaa3a5389d996b1557', '2015-10-28 17:32:26', '1', '2016-08-17 14:15:10', '系统管理员', '0', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for sys_user_role

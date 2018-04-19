@@ -1,8 +1,8 @@
-package com.thinkgem.jeesite.modules.sys.service;
+package com.thinkgem.jeesite.modules.log.service;
 
 import com.thinkgem.jeesite.common.service.BaseService;
-import com.thinkgem.jeesite.modules.sys.dao.OperationLogDao;
-import com.thinkgem.jeesite.modules.sys.entity.OperationLog;
+import com.thinkgem.jeesite.modules.log.dao.OperationLogDao;
+import com.thinkgem.jeesite.modules.log.entity.OperationLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,7 +1,7 @@
-package com.thinkgem.jeesite.modules.sys.dao;
+package com.thinkgem.jeesite.modules.log.dao;
 
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.sys.entity.OperationLog;
+import com.thinkgem.jeesite.modules.log.entity.OperationLog;
 
 import java.util.List;
 import java.util.Map;

@@ -5,27 +5,16 @@
     <title>操作日志</title>
     <meta name="decorator" content="default"/>
     <%@include file="/WEB-INF/views/include/dialog.jsp" %>
-    <style type="text/css">
-        .sort {
-            color: #0663A2;
-            cursor: pointer;
-        }
-    </style>
     <script type="text/javascript">
         $(document).ready(function () {
-            // 表格排序
-            tableSort({callBack: page});
-
             initDatepicker();
         });
-
         function page(n, s) {
             $("#pageNo").val(n);
             $("#pageSize").val(s);
             $("#searchForm").attr("action", "${ctx}/log/queryOperationLogList").submit();
             return false;
         }
-
         function initDatepicker() {
             var param = {
                 format: 'yyyy-mm-dd',
@@ -40,11 +29,9 @@
     </script>
 </head>
 <body>
-
     <ul class="nav nav-tabs">
         <li class="active"><a href="${ctx}/log/queryOperationLogList">操作日志列表</a></li>
     </ul>
-
     <form:form id="searchForm" modelAttribute="operationLog" action="${ctx}/log/queryOperationLogList" method="post"
                class="breadcrumb form-search">
         <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -59,29 +46,30 @@
             <input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
         </div>
     </form:form>
-
     <tags:message content="${message}"/>
     <table id="contentTable" class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
+            <th>归属公司</th>
+            <th>归属部门</th>
             <th>用户名</th>
             <th>登录名</th>
-            <th>业务模块</th>
             <th>菜单名称</th>
+            <th>业务模块</th>
             <th>操作</th>
-            <th>操作描述</th>
             <th>时间</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${page.list}" var="operationLog">
             <tr>
+                <td>${operationLog.companyName}</td>
+                <td>${operationLog.officeName}</td>
                 <td>${operationLog.userName}</td>
                 <td>${operationLog.loginName}</td>
-                <td>${operationLog.moduleName}</td>
                 <td>${operationLog.menuName}</td>
+                <td>${operationLog.moduleName}</td>
                 <td>${operationLog.operation}</td>
-                <td>${operationLog.remarks}</td>
                 <td>
                     <fmt:formatDate value="${operationLog.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
                 </td>

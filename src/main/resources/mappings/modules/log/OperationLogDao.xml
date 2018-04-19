@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.log.dao.OperationLogDao">
+
+    <sql id="queryCondition">
+        <if test="officeIds!=null">
+            and a.office_id = ${officeId}
+        </if>
+        <if test="companyId!=null">
+            and a.company_id = #{companyId}
+        </if>
+        <if test="userName!=null">
+            and a.user_name = #{userName}
+        </if>
+        <if test="loginName!=null">
+            and a.login_name = #{loginName}
+        </if>
+        <if test="startTime!=null">
+            and a.create_date &gt;= #{startTime}
+        </if>
+        <if test="endTime!=null">
+            and a.create_date &lt; #{endTime}
+        </if>
+    </sql>
+
+    <select id="queryOperationLogList" parameterType="java.util.Map"
+            resultType="com.thinkgem.jeesite.modules.log.dao.OperationLogDao">
+        SELECT a.id,a.office_id AS officeId,a.office_name AS officeName,a.company_id AS companyId,a.company_name AS companyName,
+        a.user_name AS userName,a.login_name AS loginName,a.menu_name AS menuName,a.module_name AS moduleName,a.operation,a.create_date AS createDate
+        FROM sys_operation_log a
+        WHERE 1 = 1
+        <include refid="queryCondition"/>
+        ORDER BY a.create_date DESC
+        LIMIT #{listStart}, #{pageSize}
+    </select>
+
+    <select id="save" parameterType="com.thinkgem.jeesite.modules.log.dao.OperationLogDao">
+        insert into sys_operation_log(office_id,office_name,company_id,company_name,user_name,login_name,menu_name,module_name,operation,create_date)
+        values (#{officeId},#{officeName},#{companyId},#{companyName},#{userName},#{loginName},#{menuName},#{moduleName},#{operation},#{createDate})
+    </select>
+
+    <select id="listCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM sys_operation_log
+        WHERE 1 = 1
+        <include refid="queryCondition"/>
+    </select>
+
+</mapper>

@@ -1,7 +1,7 @@
-package com.thinkgem.jeesite.modules.sys.dao;
+package com.thinkgem.jeesite.modules.log.dao;
 
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.sys.entity.LoginLog;
+import com.thinkgem.jeesite.modules.log.entity.LoginLog;
 
 import java.util.List;
 import java.util.Map;
@@ -13,8 +13,10 @@ public interface LoginLogDao {
 
     int listCount(Map map);
 
-    void save(LoginLog loginLog);
+    List<LoginLog> queryLoginLogStatistics(Map map);
 
-    List<LoginLog> queryLoginLogByMonth(Map map);
+    int statisticsCount(Map map);
+
+    void save(LoginLog loginLog);
 
 }

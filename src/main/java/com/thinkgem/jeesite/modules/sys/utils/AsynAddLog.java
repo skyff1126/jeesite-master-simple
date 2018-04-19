@@ -1,10 +1,10 @@
 package com.thinkgem.jeesite.modules.sys.utils;
 
 import com.thinkgem.jeesite.common.service.BaseService;
-import com.thinkgem.jeesite.modules.sys.entity.LoginLog;
-import com.thinkgem.jeesite.modules.sys.entity.OperationLog;
-import com.thinkgem.jeesite.modules.sys.service.LoginLogService;
-import com.thinkgem.jeesite.modules.sys.service.OperationLogService;
+import com.thinkgem.jeesite.modules.log.entity.LoginLog;
+import com.thinkgem.jeesite.modules.log.entity.OperationLog;
+import com.thinkgem.jeesite.modules.log.service.LoginLogService;
+import com.thinkgem.jeesite.modules.log.service.OperationLogService;
 
 public class AsynAddLog implements Runnable {
 

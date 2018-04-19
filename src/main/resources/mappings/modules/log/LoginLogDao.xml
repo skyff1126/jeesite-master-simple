@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.log.dao.LoginLogDao">
+
+    <sql id="queryCondition">
+        <if test="officeIds!=null">
+            and a.office_id = ${officeId}
+        </if>
+        <if test="companyId!=null">
+            and a.company_id = #{companyId}
+        </if>
+        <if test="userName!=null">
+            and a.user_name = #{userName}
+        </if>
+        <if test="loginName!=null">
+            and a.login_name = #{loginName}
+        </if>
+        <if test="startTime!=null">
+            and a.create_date &gt;= #{startTime}
+        </if>
+        <if test="endTime!=null">
+            and a.create_date &lt; #{endTime}
+        </if>
+    </sql>
+
+    <select id="queryLoginLogList" parameterType="java.util.Map"
+            resultType="com.thinkgem.jeesite.modules.log.entity.LoginLog">
+        SELECT a.id,a.office_id AS officeId,a.office_name AS officeName,a.company_id AS companyId,a.company_name AS companyName,
+        a.user_name AS userName,a.login_name AS loginName,a.type,a.client_type AS clientType,a.create_date AS createDate
+        FROM sys_login_log a
+        WHERE 1 = 1
+        <include refid="queryCondition"/>
+        ORDER BY a.create_date DESC
+        <if test="listStart!=null and pageSize!=null">
+            LIMIT #{listStart}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="listCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM sys_login_log
+        WHERE 1 = 1
+        <include refid="queryCondition"/>
+    </select>
+
+    <select id="queryLoginLogStatistics" parameterType="java.util.Map"
+            resultType="com.thinkgem.jeesite.modules.log.entity.LoginLog">
+        SELECT a.company_id AS companyId,a.office_id AS officeId,a.user_name AS userName,a.login_name AS loginName,COUNT(*) AS COUNT
+        FROM sys_login_log a
+        WHERE 1 = 1
+        <include refid="queryCondition"/>
+        GROUP BY a.company_id,a.office_id,a.login_name
+        <if test="listStart!=null and pageSize!=null">
+            LIMIT #{listStart}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="statisticsCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM
+        (
+        SELECT a.id
+        FROM sys_login_log a
+        WHERE 1 = 1
+        <include refid="queryCondition"/>
+        GROUP BY a.company_id,a.office_id,a.login_name
+        ) as temp
+    </select>
+
+    <insert id="save" parameterType="com.thinkgem.jeesite.modules.log.entity.LoginLog">
+        insert into sys_login_log(office_id,office_name,company_id,company_name,user_name,login_name,type,client_type,year,month,day,week,create_date)
+        values (#{officeId},#{officeName},#{companyId},#{companyName},#{userName},#{loginName},#{type},#{clientType},#{year},#{month},#{day},#{week},#{createDate})
+    </insert>
+
+</mapper>

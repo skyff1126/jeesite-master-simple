@@ -1,9 +1,10 @@
-package com.thinkgem.jeesite.modules.sys.service;
+package com.thinkgem.jeesite.modules.log.service;
 
 import com.thinkgem.jeesite.common.service.BaseService;
-import com.thinkgem.jeesite.modules.sys.dao.LoginLogDao;
-import com.thinkgem.jeesite.modules.sys.entity.LoginLog;
+import com.thinkgem.jeesite.modules.log.dao.LoginLogDao;
+import com.thinkgem.jeesite.modules.log.entity.LoginLog;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,14 +32,18 @@ public class LoginLogService extends BaseService {
         return loginLogDao.listCount(map);
     }
 
-    public void saveLoginLog(LoginLog clientLoginData) {
-        loginLogDao.save(clientLoginData);
-    }
-
-    public List<LoginLog> queryLoginLogByMonth(Map map) {
-        List<LoginLog> clientLoginDataList = loginLogDao.queryLoginLogByMonth(map);
+    public List<LoginLog> queryLoginLogStatistics(Map map) {
+        List<LoginLog> clientLoginDataList = loginLogDao.queryLoginLogStatistics(map);
         transformLoginLogList(clientLoginDataList);
         return clientLoginDataList;
+    }
+
+    public int statisticsCount(Map map) {
+        return loginLogDao.statisticsCount(map);
+    }
+
+    public void saveLoginLog(LoginLog clientLoginData) {
+        loginLogDao.save(clientLoginData);
     }
 
     private void transformLoginLogList(List<LoginLog> clientLoginDataList) {

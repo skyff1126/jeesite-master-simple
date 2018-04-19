@@ -5,10 +5,14 @@ package com.thinkgem.jeesite.modules.sys.utils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-import com.thinkgem.jeesite.common.utils.IdGen;
+import com.thinkgem.jeesite.modules.log.entity.LoginLog;
+import com.thinkgem.jeesite.modules.log.entity.OperationLog;
+import com.thinkgem.jeesite.modules.log.service.LoginLogService;
 import com.thinkgem.jeesite.modules.sys.entity.*;
-import com.thinkgem.jeesite.modules.sys.service.OperationLogService;
+import com.thinkgem.jeesite.modules.log.service.OperationLogService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;
@@ -38,6 +42,9 @@ public class UserUtils {
 	private static AreaDao areaDao = SpringContextHolder.getBean(AreaDao.class);
 	private static OfficeDao officeDao = SpringContextHolder.getBean(OfficeDao.class);
 	private static OperationLogService operationLogService = SpringContextHolder.getBean(OperationLogService.class);
+	private static LoginLogService loginLogService = SpringContextHolder.getBean(LoginLogService.class);
+
+	private static ExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(10);
 
 	public static final String USER_CACHE = "userCache";
 	public static final String USER_CACHE_ID_ = "id_";
@@ -295,7 +302,20 @@ public class UserUtils {
 //		return new HashMap<String, Object>();
 //	}
 
-	public static void addOperationLog(String menuName, String moduleName, String operation, String remark) {
+	public static void addLoginLog(String type, String clientType) {
+		User currentUser = UserUtils.getUser();
+		LoginLog loginLog = new LoginLog();
+		loginLog.setOfficeId(currentUser.getOffice().getId());
+		loginLog.setCompanyId(currentUser.getCompany().getId());
+		loginLog.setUserName(currentUser.getName());
+		loginLog.setLoginName(currentUser.getLoginName());
+		loginLog.setType(type);
+		loginLog.setClientType(clientType);
+		loginLog.setCreateDate(new Date());
+		scheduledThreadPool.execute(new AsynAddLog(loginLogService, loginLog));
+	}
+
+	public static void addOperationLog(String menuName, String moduleName, String operation) {
 		User currentUser = UserUtils.getUser();
 		OperationLog operationLog = new OperationLog();
 		operationLog.setOfficeId(currentUser.getOffice().getId());
@@ -306,7 +326,7 @@ public class UserUtils {
 		operationLog.setModuleName(moduleName);
 		operationLog.setOperation(operation);
 		operationLog.setCreateDate(new Date());
-		operationLogService.saveOperationLog(operationLog);
+		scheduledThreadPool.execute(new AsynAddLog(operationLogService, operationLog));
 	}
 	
 }
