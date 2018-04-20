@@ -1,0 +1,1 @@
+需要修改spring-context-shiro.xml文件，参照spring-context-cas-shiro.xml

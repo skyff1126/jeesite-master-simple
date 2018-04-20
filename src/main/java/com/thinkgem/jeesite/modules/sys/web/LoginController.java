@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.sys.security.SystemAuthorizingRealm;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.util.WebUtils;
@@ -49,11 +50,11 @@ public class LoginController extends BaseController{
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
 		Principal principal = UserUtils.getPrincipal();
 
-//		// 默认页签模式
-//		String tabmode = CookieUtils.getCookie(request, "tabmode");
-//		if (tabmode == null){
-//			CookieUtils.setCookie(response, "tabmode", "1");
-//		}
+		// 默认页签模式
+		String tabmode = CookieUtils.getCookie(request, "tabmode");
+		if (tabmode == null){
+			CookieUtils.setCookie(response, "tabmode", "1");
+		}
 		
 		if (logger.isDebugEnabled()){
 			logger.debug("login, active session size: {}", sessionDAO.getActiveSessions(false).size());
@@ -112,7 +113,7 @@ public class LoginController extends BaseController{
 		
 		// 非授权异常，登录失败，验证码加1。
 		if (!UnauthorizedException.class.getName().equals(exception)){
-			model.addAttribute("isValidateCodeLogin", isValidateCodeLogin(username, true, false));
+			model.addAttribute("isValidateCodeLogin", SystemAuthorizingRealm.isValidateCodeLogin(username, true, false));
 		}
 		
 		// 验证失败清空验证码
@@ -135,7 +136,7 @@ public class LoginController extends BaseController{
 		Principal principal = UserUtils.getPrincipal();
 
 		// 登录成功后，验证码计算器清零
-		isValidateCodeLogin(principal.getLoginName(), false, true);
+		SystemAuthorizingRealm.isValidateCodeLogin(principal.getLoginName(), false, true);
 		
 		if (logger.isDebugEnabled()){
 			logger.debug("show index, active session size: {}", sessionDAO.getActiveSessions(false).size());
@@ -194,33 +195,5 @@ public class LoginController extends BaseController{
 			theme = CookieUtils.getCookie(request, "theme");
 		}
 		return "redirect:"+request.getParameter("url");
-	}
-	
-	/**
-	 * 是否是验证码登录
-	 * @param useruame 用户名
-	 * @param isFail 计数加1
-	 * @param clean 计数清零
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public static boolean isValidateCodeLogin(String useruame, boolean isFail, boolean clean){
-		Map<String, Integer> loginFailMap = (Map<String, Integer>)CacheUtils.get("loginFailMap");
-		if (loginFailMap==null){
-			loginFailMap = Maps.newHashMap();
-			CacheUtils.put("loginFailMap", loginFailMap);
-		}
-		Integer loginFailNum = loginFailMap.get(useruame);
-		if (loginFailNum==null){
-			loginFailNum = 0;
-		}
-		if (isFail){
-			loginFailNum++;
-			loginFailMap.put(useruame, loginFailNum);
-		}
-		if (clean){
-			loginFailMap.remove(useruame);
-		}
-		return loginFailNum >= 3;
 	}
 }

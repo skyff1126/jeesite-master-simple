@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- spring ldap source配置 -->
+    <bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+        <property name="urls" value="ldap://${mvn.ad.host}:${mvn.ad.port}"/>
+        <property name="base" value="${ad.base}"/>
+        <property name="userDn" value="${ad.user}"/>
+        <property name="password" value="${ad.password}"/>
+    </bean>
+
+    <bean id="poolingContextSource" class="org.springframework.ldap.pool.factory.PoolingContextSource">
+        <property name="contextSource" ref="contextSource"/>
+        <property name="maxActive" value="20"/>
+        <property name="maxTotal" value="40"/>
+        <property name="maxIdle" value="10"/>
+        <property name="minIdle" value="5"/>
+        <property name="maxWait" value="5"/>
+    </bean>
+
+    <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+        <constructor-arg ref="contextSource"/>
+        <!--<property name="contextSource" ref="poolingContextSource"/>-->
+    </bean>
+
+</beans>

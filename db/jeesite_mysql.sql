@@ -1397,10 +1397,10 @@ INSERT INTO `sys_dict` VALUES ('35', '4', '所在部门及以下数据', 'sys_da
 INSERT INTO `sys_dict` VALUES ('36', '5', '所在部门数据', 'sys_data_scope', '数据范围', '50', '0', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', null, '0');
 INSERT INTO `sys_dict` VALUES ('37', '8', '仅本人数据', 'sys_data_scope', '数据范围', '90', '0', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', null, '0');
 INSERT INTO `sys_dict` VALUES ('38', '9', '按明细设置', 'sys_data_scope', '数据范围', '100', '0', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', null, '0');
-INSERT INTO `sys_dict` VALUES ('39', '1', '系统管理', 'sys_user_type', '用户类型', '10', '0', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', null, '0');
 INSERT INTO `sys_dict` VALUES ('4', '0', '隐藏', 'show_hide', '显示/隐藏', '20', '0', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', null, '0');
-INSERT INTO `sys_dict` VALUES ('40', '2', '部门经理', 'sys_user_type', '用户类型', '20', '0', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', null, '0');
-INSERT INTO `sys_dict` VALUES ('41', '3', '普通用户', 'sys_user_type', '用户类型', '30', '0', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', null, '0');
+INSERT INTO `sys_dict` VALUES ('39', '0', '数据库', 'sys_user_type', '用户类型', '10', '0', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', null, '0');
+INSERT INTO `sys_dict` VALUES ('40', '1', 'AD域', 'sys_user_type', '用户类型', '20', '0', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', null, '0');
+INSERT INTO `sys_dict` VALUES ('41', '2', 'CAS', 'sys_user_type', '用户类型', '30', '0', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', null, '0');
 INSERT INTO `sys_dict` VALUES ('42', 'basic', '基础主题', 'cms_theme', '站点主题', '10', '0', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', null, '0');
 INSERT INTO `sys_dict` VALUES ('43', 'blue', '蓝色主题', 'cms_theme', '站点主题', '20', '0', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', null, '1');
 INSERT INTO `sys_dict` VALUES ('44', 'red', '红色主题', 'cms_theme', '站点主题', '30', '0', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', null, '1');
@@ -2166,8 +2166,9 @@ CREATE TABLE `sys_user` (
   `email` varchar(200) DEFAULT NULL COMMENT '邮箱',
   `phone` varchar(200) DEFAULT NULL COMMENT '电话',
   `mobile` varchar(200) DEFAULT NULL COMMENT '手机',
-  `user_type` char(1) DEFAULT NULL COMMENT '用户类型',
+  `user_type` char(1) DEFAULT '0' COMMENT '用户类型',
   `photo` varchar(1000) DEFAULT NULL COMMENT '用户头像',
+  `status` char(1) DEFAULT '1' COMMENT '状态 1-激活 0-禁用',
   `login_ip` varchar(100) DEFAULT NULL COMMENT '最后登陆IP',
   `login_date` datetime DEFAULT NULL COMMENT '最后登陆时间',
   `login_flag` varchar(64) DEFAULT NULL COMMENT '是否可登录',
@@ -2177,10 +2178,12 @@ CREATE TABLE `sys_user` (
   `update_date` datetime NOT NULL COMMENT '更新时间',
   `remarks` varchar(255) DEFAULT NULL COMMENT '备注信息',
   `del_flag` char(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
-  `first_name` varchar(40) default NULL,
-  `last_name` varchar(40) default NULL,
   `gender` varchar(10) default NULL COMMENT '性别',
   `birthday` datetime default NULL COMMENT '生日',
+  `ios_device` varchar(200) default NULL COMMENT 'IOS设备号',
+  `android_device` varchar(200) default NULL COMMENT 'ANDROID设备号',
+  `mobile_model` varchar(200) default NULL COMMENT '手机型号',
+  `mobile_version` varchar(200) default NULL COMMENT '手机版本号',
   PRIMARY KEY (`id`),
   KEY `sys_user_office_id` (`office_id`),
   KEY `sys_user_login_name` (`login_name`),
@@ -2191,8 +2194,9 @@ CREATE TABLE `sys_user` (
 
 /*Data for the table `sys_user` */
 
-INSERT INTO `sys_user` VALUES ('1', '1', '1', 'superadmin', 'f3e414bbf9d7dd8d09d2d27c5c29d24ac85411f31b29d09e88cc0fd2', 'null', '超级管理员', '', '', '', null, '', '0:0:0:0:0:0:0:1', '2016-11-06 19:16:54', '1', '1', '2013-05-27 08:00:00', '1', '2016-08-17 14:14:51', '超级管理员', '0', null, null, null, null);
-INSERT INTO `sys_user` VALUES ('2', '1', '1', 'admin', 'f3e414bbf9d7dd8d09d2d27c5c29d24ac85411f31b29d09e88cc0fd2', 'null', '系统管理员', '', '', '', null, '', '112.87.186.78', '2016-11-09 21:38:32', '1', '40acf393b03a4dbaa3a5389d996b1557', '2015-10-28 17:32:26', '1', '2016-08-17 14:15:10', '系统管理员', '0', null, null, null, null);
+INSERT INTO `jeesite`.`sys_user` (`id`, `company_id`, `office_id`, `login_name`, `password`, `no`, `name`, `email`, `phone`, `mobile`, `user_type`, `photo`, `status`, `login_ip`, `login_date`, `login_flag`, `create_by`, `create_date`, `update_by`, `update_date`, `remarks`, `del_flag`, `first_name`, `last_name`, `gender`, `birthday`, `ios_device`, `android_device`, `mobile_model`, `mobile_version`) VALUES ('1', '1', '1', 'superadmin', 'f3e414bbf9d7dd8d09d2d27c5c29d24ac85411f31b29d09e88cc0fd2', 'null', '超级管理员', '', '', '', '0', '', '1', '0:0:0:0:0:0:0:1', '2018-04-19 21:48:50', '1', '1', '2013-05-27 08:00:00', '1', '2016-08-17 14:14:51', '超级管理员', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `jeesite`.`sys_user` (`id`, `company_id`, `office_id`, `login_name`, `password`, `no`, `name`, `email`, `phone`, `mobile`, `user_type`, `photo`, `status`, `login_ip`, `login_date`, `login_flag`, `create_by`, `create_date`, `update_by`, `update_date`, `remarks`, `del_flag`, `first_name`, `last_name`, `gender`, `birthday`, `ios_device`, `android_device`, `mobile_model`, `mobile_version`) VALUES ('2', '1', '1', 'admin', '965186dd56749e42a43f0171bd80d856612f76b57b44f7ec6d5c1182', 'null', '系统管理员', '', '', '', '0', '', '1', '0:0:0:0:0:0:0:1', '2018-04-19 21:48:02', '1', '40acf393b03a4dbaa3a5389d996b1557', '2015-10-28 17:32:26', '1', '2016-08-17 14:15:10', '系统管理员', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
 
 -- ----------------------------
 -- Table structure for sys_user_role

@@ -2,31 +2,40 @@ package com.thinkgem.jeesite.modules.sys.entity;
 
 public class Login {
 
-    private String username;
-    private String user_password;
-    private String email_ID;
+    private String account;
+    private String password;
+    private String deviceType;
+    private String device;
 
-    public String getUsername() {
-        return username;
+    public String getAccount() {
+        return account;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAccount(String account) {
+        this.account = account;
     }
 
-    public String getUser_password() {
-        return user_password;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUser_password(String user_password) {
-        this.user_password = user_password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getEmail_ID() {
-        return email_ID;
+    public String getDeviceType() {
+        return deviceType;
     }
 
-    public void setEmail_ID(String email_ID) {
-        this.email_ID = email_ID;
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public String getDevice() {
+        return device;
+    }
+
+    public void setDevice(String device) {
+        this.device = device;
     }
 }

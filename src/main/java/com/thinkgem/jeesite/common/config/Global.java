@@ -247,8 +247,6 @@ public class Global {
 		}
 	}
 
-	public static String getResourceRootPath() { return getConfig("resource.root.path"); }
-
 	public static String getCkBaseUrl() {
 		return getConfig("ckfinder.baseUrl");
 	}

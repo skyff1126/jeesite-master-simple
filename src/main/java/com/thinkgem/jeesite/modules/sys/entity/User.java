@@ -29,6 +29,15 @@ import com.thinkgem.jeesite.common.utils.excel.fieldtype.RoleListType;
 public class User extends DataEntity<User> {
 
 	private static final long serialVersionUID = 1L;
+
+	public static final String USERTYPE_DB="0" ; //数据库
+	public static final String USERTYPE_AD="1" ; //域账号
+	public static final String USERTYPE_CAS="2" ; //认证中心
+	public static final String STATUS_FREEZE = "0";
+	public static final String DEFAULT_PASSWORD = "123456Aa";
+	public static final String GENDER_MALE = "男";
+	public static final String GENDER_FEMALE = "女";
+
 	private Office company;	// 归属公司
 	private Office office;	// 归属部门
 	private String loginName;// 登录名
@@ -43,10 +52,17 @@ public class User extends DataEntity<User> {
 	private Date loginDate;	// 最后登陆日期
 	private String loginFlag;	// 是否允许登陆
 	private String photo;	// 头像
-	private String firstName;
-	private String lastName;
+
 	private  String gender;
 	private Date birthday;
+
+	private String iosDevice;
+	private String androidDevice;
+	private String mobileModel;
+	private String mobileVersion;
+
+	private String status;
+	private String uniqueDeviceToken;
 
 	private String oldLoginName;// 原登录名
 	private String newPassword;	// 新密码
@@ -334,27 +350,59 @@ public class User extends DataEntity<User> {
 		this.gender = gender;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
 	public Date getBirthday() {
 		return birthday;
 	}
 
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
+	}
+
+	public String getIosDevice() {
+		return iosDevice;
+	}
+
+	public void setIosDevice(String iosDevice) {
+		this.iosDevice = iosDevice;
+	}
+
+	public String getAndroidDevice() {
+		return androidDevice;
+	}
+
+	public void setAndroidDevice(String androidDevice) {
+		this.androidDevice = androidDevice;
+	}
+
+	public String getMobileModel() {
+		return mobileModel;
+	}
+
+	public void setMobileModel(String mobileModel) {
+		this.mobileModel = mobileModel;
+	}
+
+	public String getMobileVersion() {
+		return mobileVersion;
+	}
+
+	public void setMobileVersion(String mobileVersion) {
+		this.mobileVersion = mobileVersion;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getUniqueDeviceToken() {
+		return uniqueDeviceToken;
+	}
+
+	public void setUniqueDeviceToken(String uniqueDeviceToken) {
+		this.uniqueDeviceToken = uniqueDeviceToken;
 	}
 }

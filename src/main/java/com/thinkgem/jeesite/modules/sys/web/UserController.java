@@ -328,7 +328,7 @@ public class UserController extends BaseController {
 				model.addAttribute("message", "演示模式，不允许操作！");
 				return "modules/sys/userModifyPwd";
 			}
-			if (SystemService.validatePassword(oldPassword, user.getPassword())){
+			if (UserUtils.validatePassword(oldPassword, user.getPassword())){
 				systemService.updatePasswordById(user.getId(), user.getLoginName(), newPassword);
 				model.addAttribute("message", "修改密码成功");
 			}else{

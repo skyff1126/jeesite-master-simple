@@ -80,6 +80,14 @@
 		a.update_by AS "updateBy.id",
 		a.update_date,
 		a.del_flag,
+		a.user_type AS "userType",
+		a.gender AS "gender",
+		a.birthday AS "birthday",
+		a.ios_device AS "iosDevice",
+		a.android_device AS "androidDevice",
+		a.mobile_model AS "mobileModel",
+		a.mobile_version AS "mobileVersion",
+		a.status AS "status",
     	c.name AS "company.name",
     	c.parent_id AS "company.parent.id",
     	c.parent_ids AS "company.parentIds",
@@ -244,7 +252,9 @@
 			remarks, 
 			login_flag, 
 			photo, 
-			del_flag
+			del_flag,
+			gender,
+			birthday
 		) VALUES (
 			#{id}, 
 			#{company.id}, 
@@ -264,7 +274,9 @@
 			#{remarks}, 
 			#{loginFlag}, 
 			#{photo}, 
-			#{delFlag}
+			#{delFlag},
+			#{gender},
+			#{birthday}
 		)
 	</insert>
 	
@@ -285,7 +297,9 @@
 			update_date = #{updateDate}, 
 			remarks = #{remarks},
 			login_flag = #{loginFlag},
-			photo = #{photo}
+			photo = #{photo},
+			gender = #{gender},
+			birthday = #{birthday}
 		WHERE id = #{id}
 	</update>
 	
@@ -332,6 +346,13 @@
 			login_Date = #{loginDate} 
 		WHERE id = #{id}
 	</update>
+
+	<!-- 更新用户状态-->
+	<update id="updateStatusById" parameterType="String">
+		UPDATE sys_user SET
+		status = #{status}
+		WHERE id = #{id}
+	</update>
 	
 	<!-- 逻辑删除用户 -->
 	<update id="delete">
@@ -339,5 +360,23 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
+	<!-- 根据登录名查找 -->
+	<select id="findByLoginName" resultType="User" parameterType="String">
+		SELECT
+		<include refid="userColumns"/>
+		FROM sys_user a
+		<include refid="userJoins"/>
+		WHERE a.login_Name = #{loginName} and a.del_flag = '0'
+	</select>
+
+	<!-- 根据账号（登录名 或 手机号 或 邮箱）查找 -->
+	<select id="findByAccount" resultType="User" parameterType="String">
+		SELECT
+		<include refid="userColumns"/>
+		FROM sys_user a
+		<include refid="userJoins"/>
+		WHERE (a.login_Name = #{account} OR a.email = #{account} OR a.mobile = #{account}) and a.del_flag = '0'
+	</select>
 	
 </mapper>
